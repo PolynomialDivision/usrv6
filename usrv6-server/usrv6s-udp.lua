@@ -31,6 +31,6 @@ while true do
     local jsonparsed = json.parse(data)
     local patharray = {}
     for p in string.gmatch(jsonparsed.path, "[^,]+") do table.insert(patharray, p) end
-    local prefixes = u:call("usrv6s", "install", { secret = jsonparsed.secret, prefix=jsonparsed.prefix, path=patharray })
+    local prefixes = u:call("usrv6s", "install", { secret = jsonparsed.secret, prefix=jsonparsed.prefix, path=patharray, interface="eth0" })
   end
 end
