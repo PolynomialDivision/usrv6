@@ -1,3 +1,3 @@
 # Usrv6 / Prefix Switcher
 
-![](docs/systemoverview)
+![](docs/systemoverview.png)
