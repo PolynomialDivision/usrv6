@@ -45,25 +45,25 @@ function del_prefix {
 function load_remover {
     local xdp=$1
     local xdp_prog=$2
+    local j=0
 
-    i=0
-	while uci get prefix-switcher.@general[$i] &> /dev/null ; do
-        mesh_interface=$(uci get prefix-switcher.@general[$i].mesh_interface)
+	while uci get prefix-switcher.@general[$j] &> /dev/null ; do
+        mesh_interface=$(uci get prefix-switcher.@general[$j].mesh_interface)
         ip link set dev $mesh_interface xdp off
         xdpload -d $mesh_interface -f $xdp -p $xdp_prog
-        i=$((i+1))
+        j=$((j+1))
 	done
 }
 
 function apply_remover {
     local prefix=$1
     local key=$2
+    local j=0
 
-    i=0
-	while uci get prefix-switcher.@general[$i] &> /dev/null ; do
-        mesh_interface=$(uci get prefix-switcher.@general[$i].mesh_interface)
+	while uci get prefix-switcher.@general[$j] &> /dev/null ; do
+        mesh_interface=$(uci get prefix-switcher.@general[$j].mesh_interface)
         xdp-srv6-remover -d $mesh_interface -p $prefix -k $key
-		i=$((i+1))
+		j=$((j+1))
 	done
 }
 
@@ -154,6 +154,6 @@ do
     sleep $SLEEP
     i=$((i+1))
     if [ $i -ge $MAX_PREFIXES ]; then
-        i = 0
+        i=0
     fi
 done
