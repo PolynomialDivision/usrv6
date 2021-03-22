@@ -71,7 +71,6 @@ function get_random_prefix {
 function is_route_installed {
     local ip=$1
 
-    # ToDo: Find a better solution
     tmp=$(echo $ip | tr "/" " " | awk '{print $1}')
     ip -6 r g $tmp 2> /dev/null
     if [ $? -eq 2 ]; then

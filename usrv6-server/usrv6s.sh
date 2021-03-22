@@ -32,9 +32,6 @@ case "$1" in
 				logger -t "usrv6s" "call" "$2" "$input"
 				list_prefix $input
 			;;
-			# ToDo: Report Back The Valid-/Preferred-Lifetime
-			# We can use ubus call network.interface.wan6 status and look for preferred and valid time
-			# We also need to implement some counting mechanism in odhcpcd
 			get_free_prefix)
 				read input;
 				logger -t "usrv6s" "call" "$2" "$input"

@@ -28,15 +28,16 @@ function do_not_announce_prefix {
 }
 
 function get_gw_ids {
+	# this is replaced by babeld-utils
+
 	gw_ids=$(echo "dump" | nc ::1 33123 | grep "prefix ::/0" | awk '{print $11}' | uniq)
 	echo $gw_ids
 }
 
 function get_gw_ips {
-	local gw_id=$1
+	# this is replaced by babeld-utils
 
-	# ToDo: Make This Configurable
-	# ToDo: Use ubus
+	local gw_id=$1
 	gw_ips=$(echo "dump" | nc ::1 33123 | grep $gw_id | awk '{print $7}')
 	# try getting a 128 ip
 	# for now just search for 128 ips
