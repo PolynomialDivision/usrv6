@@ -1,0 +1,19 @@
+{
+    "usrv6": {
+        "description": "SRv6 Installer",
+        "read": {
+            "ubus": {
+                    "usrv6s": [ "*" ],
+                    "session": [
+                        "access",
+                        "login"
+                ]
+            }
+        },
+        "write": {
+            "ubus": {
+                    "usrv6s": [ "*" ]
+            }
+        }
+    }
+}
