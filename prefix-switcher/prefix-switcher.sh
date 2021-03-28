@@ -3,6 +3,27 @@
 . /usr/share/usrv6/babel.sh
 . /usr/share/libubox/jshn.sh
 
+function netem_add_mesh_delay {
+    local delay=$1
+
+	while uci get prefix-switcher.@general[$j] &> /dev/null ; do
+        mesh_interface=$(uci get prefix-switcher.@general[$j].mesh_interface)
+        tc qdisc add dev $mesh_interface root handle 1: prio
+        tc qdisc add dev $mesh_interface parent 1:3 handle 30: netem delay $delay
+        j=$((j+1))
+	done
+}
+
+function netem_add_mesh_prefx {
+    local prefix=$1
+
+	while uci get prefix-switcher.@general[$j] &> /dev/null ; do
+        mesh_interface=$(uci get prefix-switcher.@general[$j].mesh_interface)
+        tc filter add dev $mesh_interface protocol ip parent 1:0 prio 3 u32 match ip6 src $prefix flowid 1:3
+        j=$((j+1))
+	done
+}
+
 function create_new_prefix_section {
     local p=$1
     local k=$2
@@ -101,7 +122,7 @@ function new_prefix {
     apply_remover $prefix $key
     xdp-srv6-adder -d $CLIENT_INTERFACE -p $prefix -k $key
 
-    # here we could also now use NetEm to add delays, packet loss and jitter for the prefix on the mesh interface
+    netem_add_mesh_prefx $prefix
 
     /etc/init.d/odhcpd reload
     /etc/init.d/network reload
@@ -146,6 +167,8 @@ xdp-srv6-adder -d $CLIENT_INTERFACE -s $SEGPATH_CLIENT -l $LAST_SEGMENT
 
 # load and init remover
 load_remover $XDP_REMOVER $XDP_PROG_REMOVER
+
+netem_add_mesh_delay 10ms
 
 i=0
 while [ 1 ]

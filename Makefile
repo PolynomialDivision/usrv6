@@ -106,7 +106,7 @@ define Package/prefix-switcher
 	TITLE:=Prefix Switcher
 	URL:=https://github.com/PolynomialDivision
 	PKGARCH:=all
-	DEPENDS:=+usrv6c +babeld-utils +xdp-srv6-remover +xdp-srv6-adder
+	DEPENDS:=+usrv6c +babeld-utils +xdp-srv6-remover +xdp-srv6-adder +tc
 endef
 
 define Package/prefix-switcher/install
